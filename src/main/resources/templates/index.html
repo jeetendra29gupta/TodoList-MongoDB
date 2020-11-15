@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+body {
+	margin: 10px;
+	padding: 10px;
+}
+
+* {
+	box-sizing: border-box;
+}
+
+ul {
+	margin: 0;
+	padding: 0;
+}
+
+ul li {
+	position: relative;
+	padding: 12px 8px 12px 40px;
+	list-style-type: none;
+	background: #eee;
+}
+
+.checked {
+	text-decoration: line-through;
+}
+
+.update {
+	cursor: pointer;
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	padding: 16px;
+}
+
+.update:hover {
+	background-color: #f44336;
+	color: white;
+}
+
+.close {
+	cursor: pointer;
+	position: absolute;
+	right: 0;
+	top: 0;
+	padding: 16px;
+}
+
+.close:hover {
+	background-color: #33b009;
+	color: white;
+}
+
+.header {
+	background-color: #f44336;
+	padding: 30px 40px;
+	color: white;
+	text-align: center;
+}
+
+.header:after {
+	content: "";
+	display: table;
+	clear: both;
+}
+
+.input {
+	margin: 0;
+	border: none;
+	border-radius: 0;
+	width: 75%;
+	padding: 10px;
+	float: left;
+	font-size: 16px;
+}
+
+.addBtn {
+	padding: 10px;
+	width: 25%;
+	background: #d9d9d9;
+	color: #555;
+	float: left;
+	text-align: center;
+	font-size: 16px;
+	cursor: pointer;
+	transition: 0.3s;
+	border-radius: 0;
+	border: none;
+}
+
+.addBtn:hover {
+	background-color: #bbb;
+}
+
+.flex-grid {
+	display: flex;
+}
+
+.flex-col {
+	flex: 1;
+}
+.task{
+	padding-left:20px;
+	font-size: 18px;
+	font-weight: bold;
+}
+.date{
+	font-size: 14px;
+}
+</style>
+</head>
+<body>
+
+	<div id="myDIV" class="header">
+		<h2 style="margin: 5px">My To Do List</h2>
+		<form action="#" th:action="@{/saveTodo}" th:object="${todo}" method="post">
+			<input th:field="*{id}" name="id" type="hidden"> 
+			<input th:field="*{task}" name="task" type="text" placeholder="Title..." autocomplete="off" class="input" required="required">
+			<input type="submit" value="Add" class="addBtn" />
+		</form>
+	</div>
+	<ul th:each="TODO : ${todoList}">
+		<li th:classappend="${TODO.isCompleted()} ? 'flex-grid checked' : 'flex-grid'">
+		<span th:switch="${TODO.isCompleted()}">
+			<a th:case="true" th:href="@{'/updateTodo/' + ${TODO.id}}"><span class="update" ><img th:src="@{/image/valid.png}"></span></a>
+			<a th:case="false" th:href="@{'/doneTodo/' + ${TODO.id}}"><span class="update" ><img th:src="@{/image/valid.png}"></span></a>
+		</span>		
+		<span th:text="${TODO.task}" class="flex-col task"></span> 
+		<span th:text="${TODO.added}" class="flex-col date"></span>
+		<span th:text="${TODO.finished}" class="flex-col date"></span>
+		
+		<a th:href="@{'/deleteTodo/' + ${TODO.id}}"><span class="close"><img th:src="@{/image/invalid.png}"></span></a>
+		</li>
+	</ul>
+
+</body>
+</html>

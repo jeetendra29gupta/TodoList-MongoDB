@@ -1,0 +1,9 @@
+{
+	"userName": "admin",
+	"password": "admin",
+	"fullName": "admin",
+	"email": "admin@gmail.com",
+	"mobile": "9876543210",
+	"active": true,
+	"roles": "ROLE_ADMIN, ROLE_SUPPORT, ROLE_USER"
+}
